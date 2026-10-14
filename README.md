@@ -2,6 +2,46 @@
 
 Continues [Nitro](https://nitro.unjs.io/) deployments for end-to-end testing deployment providers.
 
+## AWS Lambda Web Functions
+
+This branch tests the `aws-lambda-web` preset with
+[`https://pkg.pr.new/nitro@4777`](https://github.com/nitrojs/nitro/pull/4777).
+Use Node.js 24, the pnpm version in `package.json`, and a current
+[AWS CLI v2](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+that supports `aws lambda-web deploy`.
+
+Authenticate and deploy to Tokyo (`ap-northeast-1`):
+
+```sh
+aws login --profile nitro-deploys --region ap-northeast-1
+pnpm install --frozen-lockfile
+AWS_PROFILE=nitro-deploys pnpm deploy:aws-lambda-web
+```
+
+The command builds and uploads the entire `.output` directory, including public
+assets, with `server/index.mjs` as the entry point. It creates or updates the
+`nitro-deploys` Web Function and its `dev` endpoint. The endpoint is public
+(`ApplicationManaged`) and uses the Tokyo home Region. On the first deployment,
+the AWS CLI also creates an execution role and deployment bucket if needed.
+See the [deployment command reference](https://docs.aws.amazon.com/cli/latest/reference/lambda-web/deploy.html).
+
+Open the returned URL with `/base/` appended. To verify the deployment:
+
+```sh
+pnpm test:aws-lambda-web https://YOUR-ENDPOINT.lambda-web.ap-northeast-1.on.aws/base/
+```
+
+For local verification, run `pnpm build:aws-lambda-web` followed by
+`pnpm test:aws-lambda-web`. The check starts the built server with
+`AWS_LAMBDA_HTTP_ENDPOINT` and verifies pages, API routes, public assets, uploads,
+and streaming. The **AWS Lambda Web** GitHub Actions workflow runs these checks
+on Linux Arm64 with Node.js 24 and uploads the deployment output as an artifact.
+
+The page also contains provider capability tests. AWS currently rejects the
+`QUERY` method and removes the `Upgrade` header, so its QUERY and WebSocket tests
+are not supported by Lambda Web endpoints. See
+[AWS HTTP request handling](https://docs.aws.amazon.com/lambda/latest/dg/web-functions-http.html).
+
 ## Providers
 
 <!-- automd:deployments -->

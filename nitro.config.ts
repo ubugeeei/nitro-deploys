@@ -1,6 +1,7 @@
 import { defineConfig } from "nitro";
 
 export default defineConfig({
+  preset: "aws-lambda-web",
   serverDir: "./server",
   baseURL: "/base",
   features: {
