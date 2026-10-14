@@ -13,6 +13,12 @@
     "docs": "https://nitro.unjs.io/deploy/providers/aws"
   },
   {
+    "name": "AWS Lambda Web",
+    "url": "https://yvcylymn3bc1yh5t.gw1.lambda-web.ap-northeast-1.on.aws/",
+    "dash": "https://ap-northeast-1.console.aws.amazon.com/lambda/home#/web-functions/nitro-deploys",
+    "docs": "https://docs.aws.amazon.com/lambda/latest/dg/web-functions.html"
+  },
+  {
     "name": "AWS Amplify",
     "url": "",
     "dash": "https://aws.amazon.com/amplify/",

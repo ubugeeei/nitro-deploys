@@ -13,10 +13,14 @@ that supports `aws lambda-web deploy`.
 Authenticate and deploy to Tokyo (`ap-northeast-1`):
 
 ```sh
-aws login --profile nitro-deploys --region ap-northeast-1
+aws login --region ap-northeast-1
 pnpm install --frozen-lockfile
-AWS_PROFILE=nitro-deploys pnpm deploy:aws-lambda-web
+pnpm deploy:aws-lambda-web
 ```
+
+Run the login command in an interactive terminal. Set `AWS_PROFILE` when using a
+named profile. To enter the browser's authorization code in the terminal instead
+of using the local callback, add `--remote` to `aws login`.
 
 The command builds and uploads the entire `.output` directory, including public
 assets, with `server/index.mjs` as the entry point. It creates or updates the
@@ -28,7 +32,7 @@ See the [deployment command reference](https://docs.aws.amazon.com/cli/latest/re
 Open the returned URL with `/base/` appended. To verify the deployment:
 
 ```sh
-pnpm test:aws-lambda-web https://YOUR-ENDPOINT.lambda-web.ap-northeast-1.on.aws/base/
+pnpm test:aws-lambda-web https://yvcylymn3bc1yh5t.gw1.lambda-web.ap-northeast-1.on.aws/base/
 ```
 
 For local verification, run `pnpm build:aws-lambda-web` followed by
@@ -48,6 +52,7 @@ are not supported by Lambda Web endpoints. See
 
 - Alwaysdata (broken) ([docs](https://nitro.unjs.io/deploy/providers/alwaysdata) | [deployment](https://nitro.alwaysdata.net/base/))
 - AWS Lambda (not available) ([docs](https://nitro.unjs.io/deploy/providers/aws) | ~~deployment~~)
+- AWS Lambda Web ([docs](https://docs.aws.amazon.com/lambda/latest/dg/web-functions.html) | [deployment](https://yvcylymn3bc1yh5t.gw1.lambda-web.ap-northeast-1.on.aws/base/))
 - AWS Amplify (not available) ([docs](https://nitro.unjs.io/deploy/providers/aws-amplify) | ~~deployment~~)
 - Azure Static Web Apps (broken) ([docs](https://nitro.unjs.io/deploy/providers/azure#azure-static-web-apps) | [deployment](https://delightful-mushroom-0f662f303.4.azurestaticapps.net/base/))
 - Azure Functions (not available) ([docs](https://nitro.unjs.io/deploy/providers/azure#azure-functions) | ~~deployment~~)
